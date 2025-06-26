@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>4-Month Frontend Developer Plan</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #e0f7fa, #fce4ec);
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            color: #222;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            color: #4a148c;
+            border-bottom: 2px solid #4a148c;
+            padding-bottom: 5px;
+        }
+
+        .month {
+            background-color: #fff;
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            padding: 10px;
+            transition: background-color 0.3s;
+        }
+
+        li:hover {
+            background-color: #e0f7fa;
+        }
+
+        input[type="checkbox"] {
+            margin-right: 15px;
+            transform: scale(1.4);
+        }
+
+        .progress-container {
+            width: 100%;
+            background-color: #ddd;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+
+        .progress-bar {
+            height: 25px;
+            background-color: #4caf50;
+            width: 0%;
+            color: white;
+            text-align: center;
+            line-height: 25px;
+            transition: width 0.4s ease;
+        }
+
+        .reset-btn {
+            display: block;
+            margin: 0 auto 40px auto;
+            padding: 10px 20px;
+            background-color: #f44336;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        .reset-btn:hover {
+            background-color: #d32f2f;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>4-Month Frontend Developer Learning Plan</h1>
+
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar">0%</div>
+    </div>
+
+    <button class="reset-btn" onclick="resetProgress()">Reset Progress</button>
+
+    <div id="plan"></div>
+
+    <script>
+        const plan = {
+            'Month 1': ['HTML Basics', 'HTML Forms & Tables', 'CSS Basics', 'CSS Box Model', 'Flexbox Layout', 'CSS Grid', 'Responsive Design', 'Basic Projects with HTML & CSS', 'Git Basics', 'GitHub Workflow', 'More Responsive Design', 'CSS Transitions', 'CSS Animations', 'Revision', 'Small Project 1', 'HTML Semantic Tags', 'CSS Media Queries', 'Revision + Practice', 'Portfolio Page (HTML+CSS)', 'HTML/CSS Debugging', 'Revision Day', 'Basic Terminal Commands', 'CSS Pseudo-classes', 'Practice Day', 'Project 2 Start', 'Project 2 Work', 'Project 2 Complete', 'Project Review', 'Revision'],
+
+            'Month 2': ['JavaScript Basics', 'JavaScript Variables', 'JavaScript Functions', 'DOM Manipulation', 'Event Handling', 'JavaScript Arrays', 'JavaScript Objects', 'JavaScript Loops', 'JavaScript Conditions', 'Project: Interactive Form', 'JavaScript ES6 Features', 'Local Storage', 'Practice Day', 'Simple Calculator Project', 'Form Validation', 'Basic Fetch API', 'Error Handling', 'Promises', 'Async/Await', 'API Project Start', 'API Project Work', 'API Project Complete', 'Debugging JavaScript', 'JavaScript Best Practices', 'JavaScript Practice Day', 'Project: Quiz App Start', 'Project: Quiz App Work', 'Project: Quiz App Complete', 'Revision Day', 'Practice Day'],
+
+            'Month 3': ['React Basics', 'React Components', 'JSX', 'Props & State', 'React Events', 'React Forms', 'React Router Basics', 'React Project Start', 'React Project Work', 'React Project Complete', 'React Hooks Intro', 'useState Hook', 'useEffect Hook', 'API Calls in React', 'React Local Storage', 'React Debugging', 'React Best Practices', 'React Practice Day', 'Project: To-Do App Start', 'Project: To-Do App Work', 'Project: To-Do App Complete', 'React Context API', 'React Router Advanced', 'Form Handling Advanced', 'Portfolio Update Start', 'Portfolio Update Work', 'Portfolio Update Complete', 'Review Projects', 'Practice Day', 'Revision Day'],
+
+            'Month 4': ['Basic Deployment (Netlify, Vercel)', 'Website Hosting Concepts', 'Project Deployment', 'Project Testing', 'Version Control Advanced', 'Portfolio Finalization', 'Practice Day', 'Mini Project Start', 'Mini Project Work', 'Mini Project Complete', 'GitHub Pages Deployment', 'Responsive Design Revisions', 'API Revisions', 'Debugging Practice', 'Mock Interviews', 'Resume Preparation', 'Final Portfolio Review', 'React Revisions', 'JavaScript Revisions', 'HTML/CSS Revisions', 'Advanced CSS (Optional)', 'JavaScript Advanced Topics (Optional)', 'React Advanced Topics (Optional)', 'Backup Day', 'Practice Day', 'Backup Project', 'Backup Project Work', 'Backup Project Complete', 'Final Review', 'Relax and Reflect']
+        };
+
+        const planContainer = document.getElementById('plan');
+        let totalTasks = 0;
+        let completedTasks = 0;
+
+        const savedProgress = JSON.parse(localStorage.getItem('frontendPlanProgress')) || {};
+
+        Object.keys(plan).forEach(month => {
+            const monthSection = document.createElement('div');
+            monthSection.className = 'month';
+
+            const monthTitle = document.createElement('h2');
+            monthTitle.innerText = month;
+            monthSection.appendChild(monthTitle);
+
+            const taskList = document.createElement('ul');
+
+            plan[month].forEach((task, index) => {
+                totalTasks++;
+
+                const listItem = document.createElement('li');
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+
+                const taskId = `${month}-task-${index}`;
+                checkbox.id = taskId;
+                checkbox.checked = savedProgress[taskId] || false;
+                if (checkbox.checked) completedTasks++;
+
+                checkbox.addEventListener('change', () => {
+                    savedProgress[taskId] = checkbox.checked;
+                    localStorage.setItem('frontendPlanProgress', JSON.stringify(savedProgress));
+                    updateProgress();
+                });
+
+                const label = document.createElement('label');
+                label.htmlFor = taskId;
+                label.innerText = `Day ${index + 1}: ${task}`;
+
+                listItem.appendChild(checkbox);
+                listItem.appendChild(label);
+                taskList.appendChild(listItem);
+            });
+
+            monthSection.appendChild(taskList);
+            planContainer.appendChild(monthSection);
+        });
+
+        function updateProgress() {
+            const percent = Math.round((Object.values(savedProgress).filter(Boolean).length / totalTasks) * 100);
+            document.getElementById('progressBar').style.width = percent + '%';
+            document.getElementById('progressBar').innerText = percent + '%';
+        }
+
+        function resetProgress() {
+            if (confirm('Are you sure you want to reset all progress?')) {
+                localStorage.removeItem('frontendPlanProgress');
+                location.reload();
+            }
+        }
+
+        updateProgress();
+    </script>
+</body>
+
+</html>
