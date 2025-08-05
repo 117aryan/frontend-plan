@@ -3,125 +3,184 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Progress Peace</title>
+    <title>Serene Progress Tracker</title>
     <style>
         :root {
-            --bg: #f8f9fa;
-            --card: #ffffff;
-            --text: #495057;
-            --primary: #5c7cfa;
-            --complete: #51cf66;
-            --medium: #fcc419;
-            --low: #ff8787;
+            --primary: #6366F1;
+            --primary-light: #A5B4FC;
+            --success: #10B981;
+            --warning: #F59E0B;
+            --danger: #EF4444;
+            --bg: #F9FAFB;
+            --card: #FFFFFF;
+            --text: #374151;
+            --text-light: #6B7280;
+            --border: #E5E7EB;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
         }
 
         body {
             background-color: var(--bg);
             color: var(--text);
-            padding: 20px;
-            line-height: 1.5;
-            max-width: 1000px;
+            padding: 2rem;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
             margin: 0 auto;
         }
 
-        h1 {
+        header {
             text-align: center;
-            margin-bottom: 1.5rem;
-            font-weight: 500;
-            color: #343a40;
+            margin-bottom: 3rem;
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            color: var(--text-light);
+            font-size: 1rem;
         }
 
         .progress-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 1rem;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
         }
 
         .progress-card {
             background: var(--card);
-            border-radius: 8px;
-            padding: 1.25rem;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.03);
-            transition: transform 0.15s ease;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            transition: all 0.2s ease;
+            border: 1px solid var(--border);
         }
 
         .progress-card:hover {
             transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
         }
 
-        .progress-card h3 {
-            font-size: 1rem;
-            font-weight: 500;
-            margin-bottom: 1rem;
-            color: #343a40;
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.25rem;
         }
 
-        .progress-item {
-            margin-bottom: 1rem;
+        .card-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #E0E7FF 0%, #A5B4FC 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            color: var(--primary);
+            font-weight: 600;
         }
 
-        .progress-header {
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #111827;
+        }
+
+        .progress-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .progress-label {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 0.25rem;
-            font-size: 0.85rem;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .progress-percent {
+            font-weight: 600;
+            color: var(--text);
         }
 
         .progress-bar {
-            height: 6px;
-            background: #e9ecef;
-            border-radius: 3px;
+            height: 8px;
+            background: #E5E7EB;
+            border-radius: 4px;
             overflow: hidden;
         }
 
         .progress-fill {
             height: 100%;
-            border-radius: 3px;
-            width: 0%;
-            transition: width 0.4s ease, background 0.4s ease;
+            border-radius: 4px;
+            transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .progress-controls {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 0.5rem;
-            margin-top: 0.75rem;
+            margin-top: 1rem;
         }
 
         .progress-btn {
-            padding: 0.4rem;
+            padding: 0.5rem;
             border: none;
-            border-radius: 4px;
-            font-size: 0.75rem;
-            background: #e9ecef;
-            color: var(--text);
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 500;
             cursor: pointer;
             transition: all 0.2s ease;
         }
 
         .progress-btn:hover {
-            opacity: 0.9;
+            transform: translateY(-1px);
         }
 
-        .progress-summary {
-            margin-top: 1rem;
-            padding-top: 1rem;
-            border-top: 1px solid #e9ecef;
-            font-size: 0.85rem;
+        .progress-btn-25 {
+            background: #FEE2E2;
+            color: var(--danger);
         }
 
-        @media (max-width: 600px) {
+        .progress-btn-50 {
+            background: #FEF3C7;
+            color: var(--warning);
+        }
+
+        .progress-btn-75 {
+            background: #E0E7FF;
+            color: var(--primary);
+        }
+
+        .progress-btn-100 {
+            background: #D1FAE5;
+            color: var(--success);
+        }
+
+        .overall-progress {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px dashed var(--border);
+        }
+
+        @media (max-width: 768px) {
             body {
-                padding: 15px;
+                padding: 1.5rem;
             }
-            
+
             .progress-grid {
                 grid-template-columns: 1fr;
             }
@@ -129,8 +188,14 @@
     </style>
 </head>
 <body>
-    <h1>Work Progress</h1>
-    <div class="progress-grid" id="progressGrid"></div>
+    <div class="container">
+        <header>
+            <h1>Work Progress Tracker</h1>
+            <p class="subtitle">Track your development tasks with peace of mind</p>
+        </header>
+
+        <div class="progress-grid" id="progressGrid"></div>
+    </div>
 
     <script>
         const sections = [
@@ -143,7 +208,6 @@
 
         let progressData = JSON.parse(localStorage.getItem('progressData')) || {};
         
-        // Initialize if empty
         sections.forEach(section => {
             if (!progressData[section]) {
                 progressData[section] = { crud: 0, validation: 0 };
@@ -155,9 +219,14 @@
         }
 
         function getProgressColor(percent) {
-            if (percent >= 90) return 'var(--complete)';
-            if (percent >= 50) return 'var(--medium)';
-            return 'var(--low)';
+            if (percent >= 90) return '#10B981';
+            if (percent >= 75) return '#6366F1';
+            if (percent >= 50) return '#F59E0B';
+            return '#EF4444';
+        }
+
+        function getInitials(name) {
+            return name.split(' ').map(word => word[0]).join('').substring(0, 2);
         }
 
         function calculateOverall(section) {
@@ -168,7 +237,6 @@
             const grid = document.getElementById('progressGrid');
             grid.innerHTML = '';
             
-            // Sort by completion (simplified)
             const sortedSections = [...sections].sort((a, b) => {
                 return calculateOverall(b) - calculateOverall(a);
             });
@@ -180,12 +248,15 @@
                 const card = document.createElement('div');
                 card.className = 'progress-card';
                 card.innerHTML = `
-                    <h3>${section}</h3>
+                    <div class="card-header">
+                        <div class="card-icon">${getInitials(section)}</div>
+                        <div class="card-title">${section}</div>
+                    </div>
                     
-                    <div class="progress-item">
-                        <div class="progress-header">
-                            <span>CRUD</span>
-                            <span>${crud}%</span>
+                    <div class="progress-section">
+                        <div class="progress-label">
+                            <span>CRUD Operations</span>
+                            <span class="progress-percent">${crud}%</span>
                         </div>
                         <div class="progress-bar">
                             <div class="progress-fill" 
@@ -193,17 +264,17 @@
                             </div>
                         </div>
                         <div class="progress-controls">
-                            <button class="progress-btn" onclick="updateProgress('${section}', 'crud', 25)">25%</button>
-                            <button class="progress-btn" onclick="updateProgress('${section}', 'crud', 50)">50%</button>
-                            <button class="progress-btn" onclick="updateProgress('${section}', 'crud', 75)">75%</button>
-                            <button class="progress-btn" onclick="updateProgress('${section}', 'crud', 100)">100%</button>
+                            <button class="progress-btn progress-btn-25" onclick="updateProgress('${section}', 'crud', 25)">25%</button>
+                            <button class="progress-btn progress-btn-50" onclick="updateProgress('${section}', 'crud', 50)">50%</button>
+                            <button class="progress-btn progress-btn-75" onclick="updateProgress('${section}', 'crud', 75)">75%</button>
+                            <button class="progress-btn progress-btn-100" onclick="updateProgress('${section}', 'crud', 100)">100%</button>
                         </div>
                     </div>
                     
-                    <div class="progress-item">
-                        <div class="progress-header">
+                    <div class="progress-section">
+                        <div class="progress-label">
                             <span>Validation</span>
-                            <span>${validation}%</span>
+                            <span class="progress-percent">${validation}%</span>
                         </div>
                         <div class="progress-bar">
                             <div class="progress-fill" 
@@ -211,17 +282,17 @@
                             </div>
                         </div>
                         <div class="progress-controls">
-                            <button class="progress-btn" onclick="updateProgress('${section}', 'validation', 25)">25%</button>
-                            <button class="progress-btn" onclick="updateProgress('${section}', 'validation', 50)">50%</button>
-                            <button class="progress-btn" onclick="updateProgress('${section}', 'validation', 75)">75%</button>
-                            <button class="progress-btn" onclick="updateProgress('${section}', 'validation', 100)">100%</button>
+                            <button class="progress-btn progress-btn-25" onclick="updateProgress('${section}', 'validation', 25)">25%</button>
+                            <button class="progress-btn progress-btn-50" onclick="updateProgress('${section}', 'validation', 50)">50%</button>
+                            <button class="progress-btn progress-btn-75" onclick="updateProgress('${section}', 'validation', 75)">75%</button>
+                            <button class="progress-btn progress-btn-100" onclick="updateProgress('${section}', 'validation', 100)">100%</button>
                         </div>
                     </div>
                     
-                    <div class="progress-summary">
-                        <div class="progress-header">
-                            <span>Overall</span>
-                            <span>${overall}%</span>
+                    <div class="overall-progress">
+                        <div class="progress-label">
+                            <span>Overall Completion</span>
+                            <span class="progress-percent">${overall}%</span>
                         </div>
                         <div class="progress-bar">
                             <div class="progress-fill" 
@@ -240,7 +311,6 @@
             renderCards();
         }
 
-        // Initial render
         document.addEventListener('DOMContentLoaded', renderCards);
     </script>
 </body>
