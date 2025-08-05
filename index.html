@@ -1,184 +1,457 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>4-Month Frontend Developer Plan</title>
+    <title>Work Progress Tracker</title>
     <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #e0f7fa, #fce4ec);
+        :root {
+            --primary: #4f46e5;
+            --primary-light: #6366f1;
+            --secondary: #10b981;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --gray: #94a3b8;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --success: #10b981;
+        }
+
+        * {
             margin: 0;
-            padding: 20px;
-            color: #333;
-        }
-
-        h1 {
-            text-align: center;
-            color: #222;
-            margin-bottom: 20px;
-        }
-
-        h2 {
-            color: #4a148c;
-            border-bottom: 2px solid #4a148c;
-            padding-bottom: 5px;
-        }
-
-        .month {
-            background-color: #fff;
-            border-radius: 15px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            margin-bottom: 30px;
-        }
-
-        ul {
-            list-style: none;
             padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
-        li {
+        body {
+            background-color: #f1f5f9;
+            color: var(--dark);
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            background: white;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 2rem;
             display: flex;
             align-items: center;
-            margin-bottom: 10px;
-            background-color: #f9f9f9;
-            border-radius: 8px;
-            padding: 10px;
-            transition: background-color 0.3s;
+            gap: 0.5rem;
         }
 
-        li:hover {
-            background-color: #e0f7fa;
+        .logo i {
+            font-size: 2rem;
         }
 
-        input[type="checkbox"] {
-            margin-right: 15px;
-            transform: scale(1.4);
+        .sidebar-menu {
+            list-style: none;
         }
 
-        .progress-container {
-            width: 100%;
-            background-color: #ddd;
-            border-radius: 10px;
+        .sidebar-menu h3 {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: var(--gray);
+            margin: 1.5rem 0 0.5rem;
+            letter-spacing: 0.05em;
+        }
+
+        .sidebar-menu li a {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            color: var(--dark);
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .sidebar-menu li a:hover {
+            background-color: #f1f5f9;
+            color: var(--primary);
+        }
+
+        .sidebar-menu li a.active {
+            background-color: #eef2ff;
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        .sidebar-menu li a i {
+            font-size: 1.25rem;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 250px;
+            padding: 2rem;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .header h1 {
+            font-size: 1.75rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .user-profile img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .user-profile .name {
+            font-weight: 500;
+        }
+
+        /* Progress Cards */
+        .progress-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .progress-card {
+            background: white;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .progress-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .progress-card h3 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .progress-card h3 i {
+            color: var(--primary);
+        }
+
+        .progress-card .task-container {
+            margin-bottom: 1rem;
+        }
+
+        .progress-card .task-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-card .task-title {
+            font-weight: 500;
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .progress-card .task-title i {
+            font-size: 1rem;
+        }
+
+        .progress-card .task-percent {
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .progress-card .progress-bar {
+            height: 8px;
+            background-color: #e2e8f0;
+            border-radius: 4px;
             overflow: hidden;
-            margin-bottom: 30px;
+            margin-bottom: 1rem;
         }
 
-        .progress-bar {
-            height: 25px;
-            background-color: #4caf50;
-            width: 0%;
-            color: white;
-            text-align: center;
-            line-height: 25px;
-            transition: width 0.4s ease;
+        .progress-card .progress-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.5s ease;
         }
 
-        .reset-btn {
-            display: block;
-            margin: 0 auto 40px auto;
-            padding: 10px 20px;
-            background-color: #f44336;
-            color: white;
+        .progress-25 .progress-fill {
+            width: 25%;
+            background-color: var(--danger);
+        }
+
+        .progress-50 .progress-fill {
+            width: 50%;
+            background-color: var(--warning);
+        }
+
+        .progress-75 .progress-fill {
+            width: 75%;
+            background-color: var(--primary-light);
+        }
+
+        .progress-100 .progress-fill {
+            width: 100%;
+            background-color: var(--success);
+        }
+
+        /* Progress Selector */
+        .progress-selector {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .progress-btn {
+            flex: 1;
+            padding: 0.5rem;
             border: none;
-            border-radius: 5px;
+            border-radius: 0.5rem;
             cursor: pointer;
-            font-size: 16px;
-            transition: background-color 0.3s;
+            font-size: 0.75rem;
+            font-weight: 500;
+            transition: all 0.2s;
         }
 
-        .reset-btn:hover {
-            background-color: #d32f2f;
-        }
-    </style>
-</head>
-
-<body>
-    <h1>4-Month Frontend Developer Learning Plan</h1>
-
-    <div class="progress-container">
-        <div class="progress-bar" id="progressBar">0%</div>
-    </div>
-
-    <button class="reset-btn" onclick="resetProgress()">Reset Progress</button>
-
-    <div id="plan"></div>
-
-    <script>
-        const plan = {
-            'Month 1': ['HTML Basics', 'HTML Forms & Tables', 'CSS Basics', 'CSS Box Model', 'Flexbox Layout', 'CSS Grid', 'Responsive Design', 'Basic Projects with HTML & CSS', 'Git Basics', 'GitHub Workflow', 'More Responsive Design', 'CSS Transitions', 'CSS Animations', 'Revision', 'Small Project 1', 'HTML Semantic Tags', 'CSS Media Queries', 'Revision + Practice', 'Portfolio Page (HTML+CSS)', 'HTML/CSS Debugging', 'Revision Day', 'Basic Terminal Commands', 'CSS Pseudo-classes', 'Practice Day', 'Project 2 Start', 'Project 2 Work', 'Project 2 Complete', 'Project Review', 'Revision'],
-
-            'Month 2': ['JavaScript Basics', 'JavaScript Variables', 'JavaScript Functions', 'DOM Manipulation', 'Event Handling', 'JavaScript Arrays', 'JavaScript Objects', 'JavaScript Loops', 'JavaScript Conditions', 'Project: Interactive Form', 'JavaScript ES6 Features', 'Local Storage', 'Practice Day', 'Simple Calculator Project', 'Form Validation', 'Basic Fetch API', 'Error Handling', 'Promises', 'Async/Await', 'API Project Start', 'API Project Work', 'API Project Complete', 'Debugging JavaScript', 'JavaScript Best Practices', 'JavaScript Practice Day', 'Project: Quiz App Start', 'Project: Quiz App Work', 'Project: Quiz App Complete', 'Revision Day', 'Practice Day'],
-
-            'Month 3': ['React Basics', 'React Components', 'JSX', 'Props & State', 'React Events', 'React Forms', 'React Router Basics', 'React Project Start', 'React Project Work', 'React Project Complete', 'React Hooks Intro', 'useState Hook', 'useEffect Hook', 'API Calls in React', 'React Local Storage', 'React Debugging', 'React Best Practices', 'React Practice Day', 'Project: To-Do App Start', 'Project: To-Do App Work', 'Project: To-Do App Complete', 'React Context API', 'React Router Advanced', 'Form Handling Advanced', 'Portfolio Update Start', 'Portfolio Update Work', 'Portfolio Update Complete', 'Review Projects', 'Practice Day', 'Revision Day'],
-
-            'Month 4': ['Basic Deployment (Netlify, Vercel)', 'Website Hosting Concepts', 'Project Deployment', 'Project Testing', 'Version Control Advanced', 'Portfolio Finalization', 'Practice Day', 'Mini Project Start', 'Mini Project Work', 'Mini Project Complete', 'GitHub Pages Deployment', 'Responsive Design Revisions', 'API Revisions', 'Debugging Practice', 'Mock Interviews', 'Resume Preparation', 'Final Portfolio Review', 'React Revisions', 'JavaScript Revisions', 'HTML/CSS Revisions', 'Advanced CSS (Optional)', 'JavaScript Advanced Topics (Optional)', 'React Advanced Topics (Optional)', 'Backup Day', 'Practice Day', 'Backup Project', 'Backup Project Work', 'Backup Project Complete', 'Final Review', 'Relax and Reflect']
-        };
-
-        const planContainer = document.getElementById('plan');
-        let totalTasks = 0;
-        let completedTasks = 0;
-
-        const savedProgress = JSON.parse(localStorage.getItem('frontendPlanProgress')) || {};
-
-        Object.keys(plan).forEach(month => {
-            const monthSection = document.createElement('div');
-            monthSection.className = 'month';
-
-            const monthTitle = document.createElement('h2');
-            monthTitle.innerText = month;
-            monthSection.appendChild(monthTitle);
-
-            const taskList = document.createElement('ul');
-
-            plan[month].forEach((task, index) => {
-                totalTasks++;
-
-                const listItem = document.createElement('li');
-                const checkbox = document.createElement('input');
-                checkbox.type = 'checkbox';
-
-                const taskId = `${month}-task-${index}`;
-                checkbox.id = taskId;
-                checkbox.checked = savedProgress[taskId] || false;
-                if (checkbox.checked) completedTasks++;
-
-                checkbox.addEventListener('change', () => {
-                    savedProgress[taskId] = checkbox.checked;
-                    localStorage.setItem('frontendPlanProgress', JSON.stringify(savedProgress));
-                    updateProgress();
-                });
-
-                const label = document.createElement('label');
-                label.htmlFor = taskId;
-                label.innerText = `Day ${index + 1}: ${task}`;
-
-                listItem.appendChild(checkbox);
-                listItem.appendChild(label);
-                taskList.appendChild(listItem);
-            });
-
-            monthSection.appendChild(taskList);
-            planContainer.appendChild(monthSection);
-        });
-
-        function updateProgress() {
-            const percent = Math.round((Object.values(savedProgress).filter(Boolean).length / totalTasks) * 100);
-            document.getElementById('progressBar').style.width = percent + '%';
-            document.getElementById('progressBar').innerText = percent + '%';
+        .progress-btn:hover {
+            opacity: 0.9;
         }
 
-        function resetProgress() {
-            if (confirm('Are you sure you want to reset all progress?')) {
-                localStorage.removeItem('frontendPlanProgress');
-                location.reload();
+        .progress-btn-25 {
+            background-color: #fee2e2;
+            color: var(--danger);
+        }
+
+        .progress-btn-50 {
+            background-color: #fef3c7;
+            color: var(--warning);
+        }
+
+        .progress-btn-75 {
+            background-color: #e0e7ff;
+            color: var(--primary);
+        }
+
+        .progress-btn-100 {
+            background-color: #d1fae5;
+            color: var(--success);
+        }
+
+        /* Overall Progress */
+        .overall-progress {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .overall-progress-text {
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                padding: 1rem;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 1rem;
+            }
+
+            .progress-grid {
+                grid-template-columns: 1fr;
             }
         }
 
-        updateProgress();
+        /* Icons */
+        @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css");
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="logo">
+                <i class="fas fa-tasks"></i>
+                <span>Progress Tracker</span>
+            </div>
+            <ul class="sidebar-menu">
+                <h3>Tracking</h3>
+                <li><a href="#" class="active"><i class="fas fa-chart-line"></i> Dashboard</a></li>
+                <li><a href="#"><i class="fas fa-calendar-alt"></i> Timeline</a></li>
+                
+                <h3>Settings</h3>
+                <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
+                <li><a href="#"><i class="fas fa-user"></i> Profile</a></li>
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="header">
+                <h1>Work Progress Dashboard</h1>
+                <div class="user-profile">
+                    <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="User">
+                    <span class="name">Sarah Johnson</span>
+                </div>
+            </div>
+
+            <div class="progress-grid" id="progressGrid">
+                <!-- Progress cards will be generated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // List of all sections to track
+        const sections = [
+            "Inquiries", "Members", "Support Tickets", "Bookings", "Orders",
+            "Memberships", "Access Management", "Services", "Customers",
+            "Payments", "Statements", "Reports", "Announcements", "Settings",
+            "My Account", "Locations", "Users", "Products", "Spaces (Resources)",
+            "Plans", "Software Subscription", "Activity Logs"
+        ];
+
+        // Load progress from localStorage or initialize
+        let progressData = JSON.parse(localStorage.getItem('progressData')) || {};
+
+        // Initialize progress data if not exists
+        sections.forEach(section => {
+            if (!progressData[section]) {
+                progressData[section] = {
+                    crud: 0,    // 0, 25, 50, 75, 100
+                    validation: 0  // 0, 25, 50, 75, 100
+                };
+            }
+        });
+
+        // Save progress to localStorage
+        function saveProgress() {
+            localStorage.setItem('progressData', JSON.stringify(progressData));
+        }
+
+        // Calculate overall progress for a section
+        function calculateOverallProgress(crud, validation) {
+            return Math.round((crud + validation) / 2);
+        }
+
+        // Generate progress cards
+        function renderProgressCards() {
+            const grid = document.getElementById('progressGrid');
+            grid.innerHTML = '';
+
+            sections.forEach(section => {
+                const data = progressData[section];
+                const crudProgress = data.crud;
+                const validationProgress = data.validation;
+                const overallProgress = calculateOverallProgress(crudProgress, validationProgress);
+
+                const card = document.createElement('div');
+                card.className = 'progress-card';
+                card.innerHTML = `
+                    <h3><i class="fas fa-folder"></i> ${section}</h3>
+                    
+                    <!-- CRUD Progress -->
+                    <div class="task-container">
+                        <div class="task-header">
+                            <span class="task-title"><i class="fas fa-database"></i> CRUD</span>
+                            <span class="task-percent">${crudProgress}%</span>
+                        </div>
+                        <div class="progress-bar progress-${crudProgress}">
+                            <div class="progress-fill"></div>
+                        </div>
+                        <div class="progress-selector">
+                            <button class="progress-btn progress-btn-25" onclick="updateTaskProgress('${section}', 'crud', 25)">25%</button>
+                            <button class="progress-btn progress-btn-50" onclick="updateTaskProgress('${section}', 'crud', 50)">50%</button>
+                            <button class="progress-btn progress-btn-75" onclick="updateTaskProgress('${section}', 'crud', 75)">75%</button>
+                            <button class="progress-btn progress-btn-100" onclick="updateTaskProgress('${section}', 'crud', 100)">100%</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Validation Progress -->
+                    <div class="task-container">
+                        <div class="task-header">
+                            <span class="task-title"><i class="fas fa-check-circle"></i> Validation</span>
+                            <span class="task-percent">${validationProgress}%</span>
+                        </div>
+                        <div class="progress-bar progress-${validationProgress}">
+                            <div class="progress-fill"></div>
+                        </div>
+                        <div class="progress-selector">
+                            <button class="progress-btn progress-btn-25" onclick="updateTaskProgress('${section}', 'validation', 25)">25%</button>
+                            <button class="progress-btn progress-btn-50" onclick="updateTaskProgress('${section}', 'validation', 50)">50%</button>
+                            <button class="progress-btn progress-btn-75" onclick="updateTaskProgress('${section}', 'validation', 75)">75%</button>
+                            <button class="progress-btn progress-btn-100" onclick="updateTaskProgress('${section}', 'validation', 100)">100%</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Overall Progress -->
+                    <div class="overall-progress">
+                        <div class="overall-progress-text">
+                            <span>Overall Progress</span>
+                            <span>${overallProgress}%</span>
+                        </div>
+                        <div class="progress-bar progress-${overallProgress}">
+                            <div class="progress-fill"></div>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Update progress for a specific task (CRUD or Validation)
+        function updateTaskProgress(section, taskType, percent) {
+            progressData[section][taskType] = percent;
+            saveProgress();
+            renderProgressCards();
+        }
+
+        // Initialize the app
+        document.addEventListener('DOMContentLoaded', () => {
+            renderProgressCards();
+        });
     </script>
 </body>
-
 </html>
